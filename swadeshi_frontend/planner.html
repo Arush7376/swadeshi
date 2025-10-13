@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Swadeshi Tourism — Travel Planner</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Swadeshi<span class="accent">Tour</span></a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="planner.html">Planner</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="safety.html">Safety</a>
+      <a href="dashboard.html" class="cta">Dashboard</a>
+    </nav>
+
+    <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+  </div>
+</header>
+
+<main class="container">
+  <div class="section-header">
+    <h2>Create Your Travel Plan</h2>
+    <p class="muted">Fill in your trip details and generate a downloadable itinerary.</p>
+  </div>
+
+  <div class="planner-container">
+    <!-- Left column: Planner Form -->
+    <div class="planner-left card form-card">
+      <form id="plannerForm">
+        <label>Destination:
+          <input type="text" name="destination" required>
+        </label>
+        <label>Start Date:
+          <input type="date" name="start" required>
+        </label>
+        <label>Number of Days:
+          <input type="number" name="days" required min="1">
+        </label>
+        <label>Budget (₹):
+          <input type="number" name="budget" required min="0">
+        </label>
+        <button class="btn primary" type="submit">Generate Itinerary</button>
+      </form>
+
+      <button id="downloadPdf" class="btn outline" style="margin-top:1rem;">
+        Download as PDF
+      </button>
+    </div>
+
+    <!-- Right column: Output -->
+    <div class="planner-right card" id="itinerary">
+      <p class="muted">Your itinerary will appear here.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2025 Swadeshi Tourism</p>
+  </div>
+</footer>
+
+<!-- jsPDF for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/planner.js"></script>
+</body>
+</html>
+

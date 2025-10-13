@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Swadeshi Tourism — Destinations</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Swadeshi<span class="accent">Tour</span></a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="planner.html">Planner</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="safety.html">Safety</a>
+      <a href="dashboard.html" class="cta">Dashboard</a>
+    </nav>
+
+    <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+  </div>
+</header>
+
+<main class="container">
+  <div class="section-header">
+    <h2>Popular Destinations</h2>
+    <p class="muted">Explore authentic Indian experiences</p>
+  </div>
+
+  <!-- Grid container where cards will be injected -->
+  <div id="dest-grid" class="grid"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2025 Swadeshi Tourism</p>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/destinations.js"></script>
+</body>
+</html>
