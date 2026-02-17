@@ -1,5 +1,6 @@
 // src/middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret_change_me';
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -13,7 +14,7 @@ module.exports = (req, res, next) => {
 
   try {
     // Verify the token using the secret key [cite: 132]
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, JWT_SECRET);
     
     // Attach the user payload to the request for use in controllers [cite: 130]
     req.user = payload; 

@@ -52,4 +52,12 @@ exports.login = async (req, res, next) => {
   }
 };
 
-// ... exports for refreshToken and logout ...
+exports.refreshToken = async (req, res) => {
+  // Placeholder flow until persistent refresh-token storage is added.
+  res.status(501).json({ error: 'Refresh token flow is not implemented yet.' });
+};
+
+exports.logout = async (req, res) => {
+  res.clearCookie('refreshToken');
+  res.status(200).json({ message: 'Logged out successfully.' });
+};

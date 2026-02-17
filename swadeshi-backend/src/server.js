@@ -9,7 +9,7 @@ const allRoutes = require('./routes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.BACKEND_PORT || 5001;
 const API_BASE_URL = process.env.API_BASE_URL || '/api';
 
 // Database connection sync

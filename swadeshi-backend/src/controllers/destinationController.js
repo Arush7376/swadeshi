@@ -39,3 +39,21 @@ exports.createDestination = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getDestinationById = async (req, res, next) => {
+  try {
+    const destination = await Destination.findByPk(req.params.id);
+    if (!destination) {
+      return res.status(404).json({ error: 'Destination not found.' });
+    }
+
+    res.status(200).json({
+      id: destination.id,
+      name: destination.title,
+      region: destination.region,
+      description: destination.description
+    });
+  } catch (error) {
+    next(error);
+  }
+};

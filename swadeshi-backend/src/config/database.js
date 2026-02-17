@@ -1,36 +1,121 @@
 // src/config/database.js
-const { Sequelize } = require('sequelize');
+// Lightweight in-memory store so the app can run without external DB setup.
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+const users = [];
+const destinations = [
   {
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
-    logging: false, // Set to console.log in development
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
+    id: 1,
+    title: 'Rishikesh',
+    region: 'North',
+    description: 'Yoga, Ganga ghats, and adventure sports.',
+    coordinates: null
+  },
+  {
+    id: 2,
+    title: 'Hampi',
+    region: 'South',
+    description: 'Ancient ruins and unique boulder landscapes.',
+    coordinates: null
+  },
+  {
+    id: 3,
+    title: 'Puri',
+    region: 'East',
+    description: 'Coastal spirituality, temples, and local cuisine.',
+    coordinates: null
   }
-);
+];
+const products = [
+  { id: 1, title: 'Handloom Shawl', price: 899, vendor: 'Artisan Co.' },
+  { id: 2, title: 'Terracotta Set', price: 499, vendor: 'ClayWorks' },
+  { id: 3, title: 'Spice Box', price: 299, vendor: 'TasteLocal' }
+];
 
-const db = {};
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+let userIdCounter = 1;
+let destinationIdCounter = destinations.length + 1;
+let productIdCounter = products.length + 1;
 
-// Import Models
-db.User = require('../models/User')(sequelize, Sequelize);
-db.Destination = require('../models/Destination')(sequelize, Sequelize);
-db.Product = require('../models/Product')(sequelize, Sequelize);
-// ... import other models (Business, Itinerary, Booking, Review)
+const User = {
+  async findOne({ where }) {
+    if (where && where.email) {
+      return users.find((u) => u.email === where.email) || null;
+    }
+    if (where && where.id) {
+      return users.find((u) => u.id === Number(where.id)) || null;
+    }
+    return null;
+  },
 
-// Setup Associations (defined in models/index.js in a real app)
-if (db.User.associate) db.User.associate(db);
-if (db.Destination.associate) db.Destination.associate(db);
-if (db.Product.associate) db.Product.associate(db);
+  async create(payload) {
+    const user = {
+      id: userIdCounter++,
+      name: payload.name,
+      email: payload.email,
+      password_hash: payload.password_hash,
+      role: payload.role || 'tourist',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    users.push(user);
+    return user;
+  }
+};
 
-module.exports = db;
+const Destination = {
+  async findAll({ attributes } = {}) {
+    if (!attributes || attributes.length === 0) {
+      return destinations;
+    }
+
+    return destinations.map((d) => {
+      const row = {};
+      for (const key of attributes) {
+        row[key] = d[key];
+      }
+      return row;
+    });
+  },
+
+  async findByPk(id) {
+    return destinations.find((d) => d.id === Number(id)) || null;
+  },
+
+  async create(payload) {
+    const destination = {
+      id: destinationIdCounter++,
+      title: payload.title,
+      description: payload.description,
+      region: payload.region,
+      coordinates: payload.coordinates || null
+    };
+    destinations.push(destination);
+    return destination;
+  }
+};
+
+const Product = {
+  async findAll() {
+    return products;
+  },
+
+  async create(payload) {
+    const product = {
+      id: productIdCounter++,
+      title: payload.title,
+      price: Number(payload.price || 0),
+      vendor: payload.vendor || 'Local Seller'
+    };
+    products.push(product);
+    return product;
+  }
+};
+
+module.exports = {
+  sequelize: {
+    sync: async () => true
+  },
+  Sequelize: {},
+  User,
+  Destination,
+  Product
+};

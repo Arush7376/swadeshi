@@ -4,13 +4,15 @@
 // ---------------------------------------------
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const grid = document.getElementById('dest-grid');
+  const grid = document.getElementById('dest-grid') || document.getElementById('dest-preview');
+  if (!grid) return;
 
   // Fetch from API layer (with demo fallback)
   const destinations = await getDestinations();
+  const items = grid.id === 'dest-preview' ? destinations.slice(0, 3) : destinations;
 
   // Render cards
-  destinations.forEach(d => {
+  items.forEach(d => {
     const card = document.createElement('div');
     card.className = 'card destination-card';
     card.innerHTML = `

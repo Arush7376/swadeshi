@@ -18,6 +18,15 @@ exports.getWeather = async (city) => {
   }
 
   console.log(`[Cache Miss] Fetching weather for ${city}`);
+
+  if (!API_KEY) {
+    const fallback = {
+      main: { temp: 29 },
+      weather: [{ description: 'Weather API key missing. Showing demo data.' }]
+    };
+    CACHE.set(cacheKey, { data: fallback, expires: Date.now() + CACHE_TTL });
+    return fallback;
+  }
   
   try {
     const response = await axios.get(API_URL, {
@@ -25,7 +34,8 @@ exports.getWeather = async (city) => {
         q: city,
         appid: API_KEY,
         units: 'metric' // Change to 'kelvin' if needed, frontend expects temp_k for demo
-      }
+      },
+      timeout: 5000
     });
 
     const data = response.data;

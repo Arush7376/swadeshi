@@ -1,30 +1,36 @@
 const products = [
-  {id: 1, name: "Handmade Pottery", price: 500, img: "images/pottery.jpg"},
-  {id: 2, name: "Traditional Scarf", price: 350, img: "images/scarf.jpg"},
-  {id: 3, name: "Local Honey", price: 200, img: "images/honey.jpg"},
-  {id: 4, name: "Brass Decor", price: 750, img: "images/brass.jpg"},
+  { id: 1, name: 'Handmade Pottery', price: 500, icon: 'Pottery' },
+  { id: 2, name: 'Traditional Scarf', price: 350, icon: 'Scarf' },
+  { id: 3, name: 'Local Honey', price: 200, icon: 'Honey' },
+  { id: 4, name: 'Brass Decor', price: 750, icon: 'Brass' }
 ];
 
 const productGrid = document.getElementById('productGrid');
-
 const cart = [];
 
 function renderProducts() {
-  productGrid.innerHTML = products.map(p => `
+  if (!productGrid) return;
+
+  productGrid.innerHTML = products
+    .map(
+      (p) => `
     <div class="card product-card">
-      <img src="${p.img}" alt="${p.name}">
+      <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.75rem;">${p.icon}</div>
       <h3>${p.name}</h3>
-      <p>₹${p.price}</p>
+      <p>INR ${p.price}</p>
       <button class="btn primary" onclick="addToCart(${p.id})">Add to Cart</button>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 }
 
 function addToCart(id) {
-  const product = products.find(p => p.id === id);
+  const product = products.find((p) => p.id === id);
+  if (!product) return;
   cart.push(product);
-  alert(`${product.name} added to cart!`);
-  console.log(cart);
+  alert(`${product.name} added to cart.`);
 }
 
+window.addToCart = addToCart;
 renderProducts();

@@ -4,16 +4,19 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 10; // or 12 [cite: 44]
+const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret_change_me';
+const JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET || 'dev_jwt_refresh_secret_change_me';
 
 // Helper to generate JWT tokens
 const generateTokens = (user) => {
     const payload = { id: user.id, email: user.email, role: user.role };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign(payload, JWT_SECRET, {
         expiresIn: process.env.JWT_ACCESS_EXPIRY || '15m' // short expiry [cite: 49]
     });
 
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
+    const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
         expiresIn: process.env.JWT_REFRESH_EXPIRY || '30d' // longer expiry [cite: 50]
     });
 
